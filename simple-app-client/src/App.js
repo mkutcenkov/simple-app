@@ -110,6 +110,14 @@ function App() {
     }
   };
 
+  const handleToggleForecast = () => {
+    if (showForecast) {
+      setShowForecast(false);
+    } else {
+      fetchForecast();
+    }
+  };
+
   return (
     <div className="app-container">
       <div className="search-box" ref={dropdownRef}>
@@ -157,11 +165,9 @@ function App() {
                       <p>Wind Speed: {weather.windspeed} km/h</p>
                       <p>Condition: {getWeatherCondition(weather.weathercode)}</p>
                       
-                      {!showForecast && (
-                        <button className="forecast-btn" onClick={fetchForecast}>
-                          Show 5-Day Forecast
-                        </button>
-                      )}
+                      <button className="forecast-btn" onClick={handleToggleForecast}>
+                        {showForecast ? "Hide Forecast" : "Show 5-Day Forecast"}
+                      </button>
 
                       {showForecast && forecast && (
                         <div className="forecast-list">

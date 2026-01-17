@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: simple-app
+    runtime: docker
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production

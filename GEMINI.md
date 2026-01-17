@@ -64,3 +64,15 @@ This document outlines the standard process for developing and implementing new 
 **Process:**
 - I will commit the changes with a clear and descriptive message.
 - I will inform the user that the feature is complete and ready for use.
+
+## 8. Deployment
+
+**Goal:** To deploy the application to the Render cloud platform.
+
+**Process:**
+- I will ensure all changes are pushed to the GitHub repository.
+- I will utilize the **Render MCP** to manage the deployment:
+    - Trigger a new deployment for the `simple-app` service.
+    - Monitor the build and deployment status.
+    - Retrieve the active service URL.
+- I will verify the deployed application is accessible and functioning correctly.
