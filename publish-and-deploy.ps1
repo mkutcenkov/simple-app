@@ -20,8 +20,8 @@ if ($status) {
 
 # Push to GitHub
 Write-Host "Pushing to GitHub..."
-# Assuming 'main' is the default branch, adjust if necessary
-git push origin main
+# Assuming 'master' is the default branch, adjust if necessary
+git push origin master
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Git push failed. Please check your remote configuration."
