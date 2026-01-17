@@ -1,0 +1,16 @@
+{
+  "projectName": "simple-app",
+  "version": "1.0.0",
+  "defaultBranch": "main",
+  "codeStyle": {
+    "indentation": "4-spaces",
+    "lineEndings": "CRLF"
+  },
+  "review": {
+    "required": true,
+    "tools": [
+      "linter",
+      "static-analyzer"
+    ]
+  }
+}
