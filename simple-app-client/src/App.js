@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
+import FavoritesSidebar from './components/FavoritesSidebar';
 
 // Fix for leaflet marker icons
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -120,7 +121,8 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="search-box" ref={dropdownRef}>
+      <div className="map-container">
+        <div className="search-box" ref={dropdownRef}>
         <input
           type="text"
           placeholder="Search city worldwide..."
@@ -147,7 +149,6 @@ function App() {
         )}
       </div>
 
-      <div className="map-container">
         <MapContainer center={mapCenter} zoom={13} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -191,6 +192,7 @@ function App() {
           )}
         </MapContainer>
       </div>
+      <FavoritesSidebar onSelectCity={handleSelectCity} />
     </div>
   );
 }

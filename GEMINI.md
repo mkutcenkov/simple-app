@@ -63,6 +63,9 @@ This document outlines the standard process for developing and implementing new 
 
 **Process:**
 - I will commit the changes with a clear and descriptive message.
+    - **Title:** A concise summary of the change (e.g., "Fix: ...", "Feat: ...").
+    - **Description:** A bulleted list or detailed explanation of *what* was changed and *why*.
+- I will use the updated `review-and-commit.ps1` script, providing both the message and the description.
 - I will inform the user that the feature is complete and ready for use.
 
 ## 8. Deployment

@@ -1,7 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleApp.Api.Data;
+using SimpleApp.Api.Models;
+using SimpleApp.Api.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
+
+// Database Context
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=simpleapp.db"));
+
+// Repositories
+builder.Services.AddScoped<ICityRepository, CityRepository>();
 
 var app = builder.Build();
 
@@ -12,7 +24,16 @@ if (app.Environment.IsDevelopment())
     // For simplicity now, we'll just serve the built files.
 }
 
+// Apply Migrations
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
+
+// --- Existing Endpoints ---
 
 app.MapGet("/api/cities", async (string query, string? language, HttpClient client) =>
 {
@@ -66,6 +87,26 @@ app.MapGet("/api/forecast", async (double lat, double lon, HttpClient client) =>
     var content = await response.Content.ReadAsStringAsync();
     return Results.Content(content, "application/json");
 });
+
+// --- Favorites Endpoints ---
+
+app.MapGet("/api/favorites", async (ICityRepository repo) =>
+{
+    return Results.Ok(await repo.GetAllAsync());
+});
+
+app.MapPost("/api/favorites", async (City city, ICityRepository repo) =>
+{
+    await repo.AddAsync(city);
+    return Results.Created($"/api/favorites/{city.Id}", city);
+});
+
+app.MapDelete("/api/favorites/{id}", async (int id, ICityRepository repo) =>
+{
+    await repo.DeleteAsync(id);
+    return Results.NoContent();
+});
+
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

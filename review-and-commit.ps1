@@ -2,7 +2,8 @@
 # It stages all changes and commits them with a provided message.
 
 param (
-    [string]$Message
+    [string]$Message,
+    [string]$Description = ""
 )
 
 if ([string]::IsNullOrEmpty($Message)) {
@@ -25,6 +26,10 @@ Write-Host "Code review complete."
 
 # Commit changes
 Write-Host "Committing changes..."
-git commit -m $Message
+if ([string]::IsNullOrEmpty($Description)) {
+    git commit -m "$Message"
+} else {
+    git commit -m "$Message" -m "$Description"
+}
 
 Write-Host "Commit successful."
