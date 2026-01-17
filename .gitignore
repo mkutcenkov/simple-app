@@ -1,0 +1,20 @@
+# Dependencies
+/node_modules
+/simple-app-client/node_modules
+
+# Build artifacts
+/simple-app-client/build
+/SimpleApp.Api/bin
+/SimpleApp.Api/obj
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Rider
+.idea/
+
+# Others
+.DS_Store
+npm-debug.log
