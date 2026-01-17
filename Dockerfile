@@ -2,7 +2,7 @@
 FROM node:18-alpine AS frontend-build
 WORKDIR /app
 COPY simple-app-client/package.json simple-app-client/package-lock.json ./
-RUN npm ci
+RUN npm install
 COPY simple-app-client/ ./
 RUN npm run build
 
