@@ -9,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 
 // Database Context
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "Host=localhost;Database=simpleapp;Username=postgres;Password=postgres";
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=simpleapp.db"));
+    options.UseNpgsql(connectionString));
 
 // Repositories
 builder.Services.AddScoped<ICityRepository, CityRepository>();
