@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using SimpleApp.Api.Data;
 using SimpleApp.Api.Models;
 using SimpleApp.Api.Repositories;
@@ -9,7 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 
 // Database Context
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "Host=localhost;Database=simpleapp;Username=postgres;Password=postgres";
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+string connectionString;
+
+if (!string.IsNullOrEmpty(databaseUrl) && databaseUrl.StartsWith("postgres://"))
+{
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    var dbBuilder = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.Port,
+        Username = userInfo[0],
+        Password = userInfo[1],
+        Database = uri.AbsolutePath.TrimStart('/')
+    };
+    connectionString = dbBuilder.ToString();
+}
+else
+{
+    connectionString = databaseUrl ?? "Host=localhost;Database=simpleapp;Username=postgres;Password=postgres";
+}
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
