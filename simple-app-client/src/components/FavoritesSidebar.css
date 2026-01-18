@@ -52,7 +52,7 @@
   border-bottom: 1px solid #eee;
 }
 
-.sidebar-dropdown li:hover {
+.sidebar-dropdown li:hover, .sidebar-dropdown li.focused {
   background-color: #f0f0f0;
 }
 

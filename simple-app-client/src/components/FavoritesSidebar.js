@@ -7,6 +7,7 @@ function FavoritesSidebar({ onSelectCity }) {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [expandedCityId, setExpandedCityId] = useState(null);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
 
   // Fetch favorites on mount
   useEffect(() => {
@@ -37,6 +38,7 @@ function FavoritesSidebar({ onSelectCity }) {
 
   const handleSearch = async (val) => {
     setQuery(val);
+    setFocusedIndex(-1); // Reset focus on new search
     if (val.length < 2) {
       setSearchResults([]);
       return;
@@ -49,6 +51,23 @@ function FavoritesSidebar({ onSelectCity }) {
       setSearchResults(data.results || []);
     } catch (error) {
       console.error("Error searching cities:", error);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (searchResults.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex(prev => (prev < searchResults.length - 1 ? prev + 1 : prev));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex(prev => (prev > 0 ? prev - 1 : prev));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (focusedIndex >= 0 && focusedIndex < searchResults.length) {
+        addFavorite(searchResults[focusedIndex]);
+      }
     }
   };
 
@@ -69,6 +88,7 @@ function FavoritesSidebar({ onSelectCity }) {
       if (response.ok) {
         setQuery('');
         setSearchResults([]);
+        setFocusedIndex(-1);
         fetchFavorites(); // Refresh list
       }
     } catch (error) {
@@ -101,11 +121,16 @@ function FavoritesSidebar({ onSelectCity }) {
           placeholder="Add city..."
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         {searchResults.length > 0 && (
           <ul className="sidebar-dropdown">
-            {searchResults.map(city => (
-              <li key={city.id} onClick={() => addFavorite(city)}>
+            {searchResults.map((city, index) => (
+              <li 
+                key={city.id} 
+                onClick={() => addFavorite(city)}
+                className={index === focusedIndex ? 'focused' : ''}
+              >
                 {city.name}, {city.country}
               </li>
             ))}
