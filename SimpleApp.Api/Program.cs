@@ -13,16 +13,16 @@ builder.Services.AddHttpClient();
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 string connectionString;
 
-if (!string.IsNullOrEmpty(databaseUrl) && databaseUrl.StartsWith("postgres://"))
+if (!string.IsNullOrEmpty(databaseUrl) && (databaseUrl.StartsWith("postgres://") || databaseUrl.StartsWith("postgresql://")))
 {
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
     var dbBuilder = new NpgsqlConnectionStringBuilder
     {
         Host = uri.Host,
-        Port = uri.Port,
+        Port = uri.Port > 0 ? uri.Port : 5432,
         Username = userInfo[0],
-        Password = userInfo[1],
+        Password = userInfo.Length > 1 ? userInfo[1] : string.Empty,
         Database = uri.AbsolutePath.TrimStart('/')
     };
     connectionString = dbBuilder.ToString();
