@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
 import FavoritesSidebar from './components/FavoritesSidebar';
+import WeatherCard from './components/WeatherCard';
 
 // Fix for leaflet marker icons
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -30,8 +31,6 @@ function App() {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
-  const [showForecast, setShowForecast] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const dropdownRef = useRef(null);
@@ -67,8 +66,6 @@ function App() {
     setQuery(`${city.name}, ${city.country}`);
     setShowDropdown(false);
     setFocusedIndex(-1);
-    setShowForecast(false);
-    setForecast(null);
     fetchWeather(city.latitude, city.longitude);
   };
 
@@ -96,26 +93,6 @@ function App() {
       setWeather(data.current_weather);
     } catch (error) {
       console.error("Error fetching weather:", error);
-    }
-  };
-
-  const fetchForecast = async () => {
-    if (!selectedCity) return;
-    try {
-      const response = await fetch(`/api/forecast?lat=${selectedCity.latitude}&lon=${selectedCity.longitude}`);
-      const data = await response.json();
-      setForecast(data.daily);
-      setShowForecast(true);
-    } catch (error) {
-      console.error("Error fetching forecast:", error);
-    }
-  };
-
-  const handleToggleForecast = () => {
-    if (showForecast) {
-      setShowForecast(false);
-    } else {
-      fetchForecast();
     }
   };
 
@@ -158,34 +135,11 @@ function App() {
           {selectedCity && (
             <Marker position={[selectedCity.latitude, selectedCity.longitude]}>
               <Popup>
-                <div className="weather-popup">
-                  <h3>{selectedCity.name}</h3>
-                  {weather ? (
-                    <div>
-                      <p>Temperature: {weather.temperature}°C</p>
-                      <p>Wind Speed: {weather.windspeed} km/h</p>
-                      <p>Condition: {getWeatherCondition(weather.weathercode)}</p>
-                      
-                      <button className="forecast-btn" onClick={handleToggleForecast}>
-                        {showForecast ? "Hide Forecast" : "Show 5-Day Forecast"}
-                      </button>
-
-                      {showForecast && forecast && (
-                        <div className="forecast-list">
-                          <h4>5-Day Forecast</h4>
-                          <ul>
-                            {forecast.time.slice(0, 5).map((date, i) => (
-                              <li key={date}>
-                                <strong>{date}:</strong> {forecast.temperature_2m_min[i]}°C - {forecast.temperature_2m_max[i]}°C, {getWeatherCondition(forecast.weathercode[i])}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p>Loading weather...</p>
-                  )}
+                <div className="weather-popup-container">
+                  <WeatherCard 
+                    city={selectedCity} 
+                    currentWeather={weather} 
+                  />
                 </div>
               </Popup>
             </Marker>
@@ -195,19 +149,6 @@ function App() {
       <FavoritesSidebar onSelectCity={handleSelectCity} />
     </div>
   );
-}
-
-function getWeatherCondition(code) {
-  const conditions = {
-    0: 'Clear sky',
-    1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
-    45: 'Fog', 48: 'Depositing rime fog',
-    51: 'Drizzle: Light', 53: 'Drizzle: Moderate', 55: 'Drizzle: Dense intensity',
-    61: 'Rain: Slight', 63: 'Rain: Moderate', 65: 'Rain: Heavy intensity',
-    71: 'Snow fall: Slight', 73: 'Snow fall: Moderate', 75: 'Snow fall: Heavy intensity',
-    95: 'Thunderstorm: Slight or moderate',
-  };
-  return conditions[code] || 'Unknown';
 }
 
 export default App;

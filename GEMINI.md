@@ -78,4 +78,6 @@ This document outlines the standard process for developing and implementing new 
     - Trigger a new deployment for the `simple-app` service.
     - Monitor the build and deployment status.
     - Retrieve the active service URL.
-- I will verify the deployed application is accessible and functioning correctly.
+- I will verify the deployed application using the validation script:
+    - Execute `powershell -File simple-app/validate-render-deploy.ps1 -DeployId <DEPLOY_ID>`, passing the `DeployId` returned by the Render MCP.
+    - Ensure the script returns a success status (Exit Code 0).

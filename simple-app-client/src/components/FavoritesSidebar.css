@@ -1,20 +1,19 @@
 .sidebar {
-  width: 300px;
-  background: #f9f9f9;
+  width: 350px;
+  background-color: #f8f9fa;
+  padding: 20px;
   border-left: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.05);
-  z-index: 2000;
-  height: 100vh; /* Full height */
+  height: 100vh;
   box-sizing: border-box;
 }
 
 .sidebar h2 {
   margin-top: 0;
-  font-size: 1.2rem;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .sidebar-search {
@@ -24,7 +23,7 @@
 
 .sidebar-search input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
@@ -37,21 +36,20 @@
   right: 0;
   background: white;
   border: 1px solid #ccc;
-  border-top: none;
+  border-radius: 0 0 4px 4px;
   list-style: none;
-  padding: 0;
   margin: 0;
-  max-height: 150px;
+  padding: 0;
+  max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
+  z-index: 1000;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .sidebar-dropdown li {
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
 }
 
 .sidebar-dropdown li:hover {
@@ -63,22 +61,22 @@
   overflow-y: auto;
 }
 
+.favorite-item-container {
+    border-bottom: 1px solid #e0e0e0;
+}
+
 .favorite-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  margin-bottom: 10px;
+  padding: 12px 10px;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
+  background-color: white;
+  transition: background-color 0.2s;
 }
 
 .favorite-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background-color: #f1f3f5;
 }
 
 .favorite-info {
@@ -87,26 +85,41 @@
 }
 
 .city-name {
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
 }
 
 .city-temp {
   font-size: 0.9rem;
-  color: #555;
+  color: #666;
 }
 
-.remove-btn {
+.city-loading {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.favorite-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.expand-btn, .remove-btn {
   background: none;
   border: none;
-  color: #999;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
+  color: #999;
   padding: 0 5px;
+  line-height: 1;
+}
+
+.expand-btn:hover {
+    color: #007bff;
 }
 
 .remove-btn:hover {
-  color: #d00;
+  color: #dc3545;
 }
 
 .empty-msg {
@@ -114,4 +127,10 @@
   font-style: italic;
   text-align: center;
   margin-top: 20px;
+}
+
+.favorite-details {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
 }
