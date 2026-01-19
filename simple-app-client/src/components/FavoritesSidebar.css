@@ -159,10 +159,12 @@
     height: 40vh;
     border-left: none;
     border-top: 1px solid #ddd;
+    flex-shrink: 0;
   }
 
   .sidebar.collapsed {
     height: 60px; /* Only header visible */
+    min-height: 60px;
     padding: 10px 20px;
   }
   
