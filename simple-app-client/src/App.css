@@ -67,8 +67,8 @@
   }
 
   .map-container {
-    height: 60vh;
-    flex: none;
+    height: auto;
+    flex: 1;
   }
 
   .search-box {
