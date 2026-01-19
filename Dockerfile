@@ -19,6 +19,7 @@ RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 # Stage 3: Final Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
+RUN apt-get update && apt-get install -y libgssapi-krb5-2 && rm -rf /var/lib/apt/lists/*
 COPY --from=backend-build /app/publish .
 # Copy the built React app to the wwwroot folder of the published .NET app
 COPY --from=frontend-build /app/build ./wwwroot
