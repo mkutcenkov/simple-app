@@ -133,7 +133,10 @@ function App() {
           />
           <ChangeView center={mapCenter} />
           {selectedCity && (
-            <Marker position={[selectedCity.latitude, selectedCity.longitude]}>
+            <Marker 
+              key={selectedCity.id}
+              position={[selectedCity.latitude, selectedCity.longitude]}
+            >
               <Popup>
                 <div className="weather-popup-container">
                   <WeatherCard 

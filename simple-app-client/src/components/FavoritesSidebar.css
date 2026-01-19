@@ -7,13 +7,33 @@
   flex-direction: column;
   height: 100vh;
   box-sizing: border-box;
+  flex-shrink: 0;
+  z-index: 1001;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .sidebar h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
+  margin: 0;
   font-size: 1.5rem;
   color: #333;
+}
+
+.collapse-toggle-btn {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  color: #555;
+  display: none; /* Hidden on desktop */
 }
 
 .sidebar-search {
@@ -141,5 +161,19 @@
     height: 40vh;
     border-left: none;
     border-top: 1px solid #ddd;
+  }
+
+  .sidebar.collapsed {
+    height: 60px; /* Only header visible */
+    padding: 10px 20px;
+  }
+  
+  .sidebar-header {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .collapse-toggle-btn {
+    display: block;
   }
 }

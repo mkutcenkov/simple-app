@@ -48,7 +48,17 @@ This document outlines the standard process for developing and implementing new 
 - I will write unit tests and integration tests for the new code.
 - I will run all tests to ensure they pass.
 
-## 6. Code Review
+## 6. Local Validation
+
+**Goal:** To verify the application functionality in a production-like environment before committing.
+
+**Process:**
+- I will execute `powershell -File simple-app/validate-local.ps1`.
+- I will ask the user to open `http://localhost:8080` and confirm the changes are correct.
+- I will wait for the user's explicit confirmation before proceeding.
+- If issues are found, I will revert to the **Implementation** phase.
+
+## 7. Code Review
 
 **Goal:** To review the code for quality, correctness, and adherence to best practices.
 
@@ -57,7 +67,7 @@ This document outlines the standard process for developing and implementing new 
 - I will use any available linters or static analysis tools to check the code.
 - I will use the `review-and-commit.ps1` script to formalize this process.
 
-## 7. Finalization
+## 8. Finalization
 
 **Goal:** To complete the feature development and merge it into the main codebase.
 
@@ -68,7 +78,7 @@ This document outlines the standard process for developing and implementing new 
 - I will use the updated `review-and-commit.ps1` script, providing both the message and the description.
 - I will inform the user that the feature is complete and ready for use.
 
-## 8. Deployment
+## 9. Deployment
 
 **Goal:** To deploy the application to the Render cloud platform.
 
