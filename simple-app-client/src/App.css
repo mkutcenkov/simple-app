@@ -60,3 +60,19 @@
 .weather-popup-container {
     min-width: 250px;
 }
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .map-container {
+    height: 60vh;
+    flex: none;
+  }
+
+  .search-box {
+    width: 90%;
+    top: 10px;
+  }
+}
